@@ -26,6 +26,14 @@
           <textarea v-model="command" id="command-input"></textarea>
         </b-col>
       </b-row>
+      <b-row align-h="center">
+        <b-col cols="3">
+          <a @click="copyToClipboard">Copy</a>
+        </b-col>
+      </b-row>
+      <b-modal id="success-modal" title="Se copió el comando con éxito">
+        <p class="my-4">¡Ahora ve a pegarlo en slack!</p>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -51,6 +59,17 @@ export default {
     removeOption(option) {
       this.options.splice(this.options.indexOf(option), 1)
     },
+
+    copyToClipboard() {
+      let command = document.querySelector('#command-input')
+      command.select()
+      try {
+        document.execCommand('copy')
+        this.$bvModal.show('success-modal')
+      } catch {
+        alert('Oops!')
+      }
+    }
   },
   data() {
     return {
