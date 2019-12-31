@@ -13,7 +13,7 @@
       </b-row>
       <b-row align-h="center">
         <b-col cols=6>
-          <ul>
+          <ul id="options-list">
             <li v-for="option in options" :key="option.id">
               <input type="text" :value="option.value">
               <a @click="removeOption(option)">❌</a>

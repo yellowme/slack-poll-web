@@ -1,0 +1,8 @@
+{
+  "title": "This is my custom made poll title",
+  "options": [
+    "First option",
+    "Second option"
+  ],
+  "expectedCommand": "/poll \"This is my custom made poll title\" \"First option\" \"Second option\""
+}
