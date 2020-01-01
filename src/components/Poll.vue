@@ -1,7 +1,7 @@
 <template>
   <div class="Poll">
     <b-container>
-      <poll-title v-model="title" />
+      <poll-title v-model="title" @keyupEnter="focusOnNextInput" />
       <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
       <b-row align-h="center">
         <b-col cols=6>
@@ -50,6 +50,10 @@ export default {
         value: this.newOptionText
       })
       this.newOptionText = ''
+    },
+
+    focusOnNextInput() {
+      document.getElementById('add-option-input').focus()
     },
 
     removeOption(option) {
