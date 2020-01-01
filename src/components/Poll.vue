@@ -13,11 +13,7 @@
           </ul>
         </b-col>
       </b-row>
-      <b-row align-h="center">
-        <b-col cols=6>
-          <textarea v-model="command" id="command-input"></textarea>
-        </b-col>
-      </b-row>
+      <poll-command-text-area v-model="command" />
       <b-row align-h="center">
         <b-col cols="3">
           <a @click="copyToClipboard">Copy</a>
@@ -34,12 +30,14 @@
 import { transcript } from './utils/transcriptor'
 import PollTitle from './Poll/PollTitle'
 import PollOptionInput from './Poll/PollOptionInput'
+import PollCommandTextArea from './Poll/PollCommandTextArea'
 
 export default {
   name: 'Poll',
   components: {
     PollTitle,
-    PollOptionInput
+    PollOptionInput,
+    PollCommandTextArea
   },
   methods: {
     addOption() {
