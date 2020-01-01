@@ -1,16 +1,8 @@
 <template>
   <div class="Poll">
     <b-container>
-      <b-row align-h="center">
-        <b-col cols=6>
-          <input type="text" v-model="title" id="title-input">
-        </b-col>
-      </b-row>
-      <b-row align-h="center">
-        <b-col cols=6>
-          <input type="text" v-model="newOptionText" @keyup.enter="addOption" id="add-option-input">
-        </b-col>
-      </b-row>
+      <poll-title v-model="title" />
+      <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
       <b-row align-h="center">
         <b-col cols=6>
           <ul id="options-list">
@@ -40,9 +32,15 @@
 
 <script>
 import { transcript } from './utils/transcriptor'
+import PollTitle from './Poll/PollTitle'
+import PollOptionInput from './Poll/PollOptionInput'
 
 export default {
   name: 'Poll',
+  components: {
+    PollTitle,
+    PollOptionInput
+  },
   methods: {
     addOption() {
       let id = 1

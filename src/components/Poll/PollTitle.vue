@@ -1,16 +1,27 @@
 <template>
-  <b-row align-h="center" class="poll-title">
-    <b-col cols=6>
-      <input type="text" v-model="title" id="title-input">
-    </b-col>
-  </b-row>
+  <div id="poll-title">
+    <b-row align-h="center">
+      <b-col cols=6>
+        <input
+          type="text"
+          :value="value"
+          @input="$emit('input', $event.target.value)"
+          id="title-input"
+        >
+      </b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
+export default {
+  name: 'PollTitle',
+  props: ['value']
+}
 </script>
 
-<style scoped>
-.poll-title {
+<style>
+#title-input {
   width: 100%;
 }
 </style>
