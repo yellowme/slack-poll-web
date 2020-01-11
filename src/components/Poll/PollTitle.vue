@@ -29,9 +29,11 @@ export default {
   outline: none;
   border: 0;
   font-size: 48px;
+  color: var(--main-font-color);
+  opacity: 1;
 }
 
-#title-input {
-  outline: none;
+#title-input::placeholder {
+  opacity: 0.25;
 }
 </style>

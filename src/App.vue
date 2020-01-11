@@ -18,9 +18,15 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato-Bold.ttf) format('truetype');
+}
+
 * {
   background-color: #1B1D21;
-  color: #D1D2D3;
+  color: var(--main-font-color);
+  font-family: Lato;
 }
 
 #app {
@@ -28,7 +34,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #D1D2D3;
+  color: var(--main-font-color);
   margin-top: 60px;
+}
+
+:root {
+  --main-font-color: #D1D2D3;
 }
 </style>
