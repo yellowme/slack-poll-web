@@ -17,12 +17,17 @@
       <poll-command-text-area v-model="command" />
       <b-row align-h="center">
         <b-col cols="3">
-          <a @click="copyToClipboard">Copy</a>
+          <a
+            :class="successfulCopy ? 'text-success' : ''"
+            @click="copyToClipboard"
+          >
+            {{ successfulCopy ? 'Copied!' : 'Copy' }}
+          </a>
         </b-col>
       </b-row>
-      <b-modal id="success-modal" title="Se copió el comando con éxito">
+      <!-- <b-modal id="success-modal" title="Se copió el comando con éxito">
         <p class="my-4">¡Ahora ve a pegarlo en slack!</p>
-      </b-modal>
+      </b-modal> -->
     </b-container>
   </div>
 </template>
@@ -66,10 +71,15 @@ export default {
       command.select()
       try {
         document.execCommand('copy')
-        this.$bvModal.show('success-modal')
+        this.successfulCopy = true
       } catch {
         alert('Oops!')
       }
+    }
+  },
+  watch: {
+    command() {
+      this.successfulCopy = false
     }
   },
   data() {
@@ -78,7 +88,8 @@ export default {
       newOptionText: '',
       options: [],
       multiple: false,
-      command: ''
+      command: '',
+      successfulCopy: false
     }
   },
   updated() {

@@ -19,7 +19,10 @@
 <script>
 export default {
   name: 'PollTitle',
-  props: ['value']
+  props: ['value'],
+  mounted() {
+    document.getElementById('title-input').focus()
+  }
 }
 </script>
 
