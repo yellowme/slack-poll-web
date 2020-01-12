@@ -6,9 +6,10 @@
       <b-row align-h="center">
         <b-col cols=6>
           <ul id="options-list">
-            <li v-for="option in options" :key="option.id">
-              <input type="text" :value="option.value">
-              <a @click="removeOption(option)">❌</a>
+            <li v-for="option in options" :key="option.id" class="option-lsit-item">
+              <!-- <input type="text" :value="option.value" class="option-input-element"> -->
+              <span class="option-element">{{ option.value }}</span>
+              <a class="option-remove-element" @click="removeOption(option)">❌</a>
             </li>
           </ul>
         </b-col>
@@ -95,5 +96,29 @@ export default {
 #add-option-input,
 #command-input {
   width: 100%;
+}
+
+#options-list {
+  text-align: left;
+  list-style-type: none;
+}
+
+/*This is for a input type*/
+/* 
+.option-input-element {
+  border: none;
+}
+
+.option-input-element:focus {
+  outline: 0;
+}
+*/
+
+.option-element {
+  margin-right: 12px;
+}
+
+.option-remove-element {
+  cursor: pointer;
 }
 </style>
