@@ -25,15 +25,15 @@ export default {
 
 <style>
 #title-input {
+  font-family: LatoBold;
   width: 100%;
   outline: none;
   border: 0;
   font-size: 48px;
-  color: var(--main-font-color);
-  opacity: 1;
+  color: var(--main-font-primary-color);
 }
 
 #title-input::placeholder {
-  opacity: 0.25;
+  color: var(--main-font-secondary-color);
 }
 </style>

@@ -19,13 +19,18 @@ export default {
 
 <style>
 @font-face {
-  font-family: Lato;
+  font-family: LatoBold;
   src: url(/fonts/Lato-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(/fonts/Lato-Regular.ttf) format('truetype');
 }
 
 * {
   background-color: #1B1D21;
-  color: var(--main-font-color);
+  color: white;
   font-family: Lato;
 }
 
@@ -34,11 +39,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: var(--main-font-color);
   margin-top: 60px;
 }
 
 :root {
-  --main-font-color: #D1D2D3;
+  --main-font-secondary-color: rgba(209, 210, 211, 0.5);
+  --main-font-primary-color: rgba(209, 210, 211, 1);
+  --main-border-color: rgba(216, 216, 216, 0.5);
 }
 </style>
