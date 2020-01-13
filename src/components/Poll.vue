@@ -1,10 +1,10 @@
 <template>
   <div class="Poll">
-    <b-container>
+    <b-container fluid="md">
       <poll-title v-model="title" @keyupEnter="focusOnNextInput" />
       <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
       <b-row align-h="center">
-        <b-col cols=6>
+        <b-col cols="6">
           <ul id="options-list">
             <li v-for="option in options" :key="option.id" class="option-lsit-item">
               <!-- <input type="text" :value="option.value" class="option-input-element"> -->

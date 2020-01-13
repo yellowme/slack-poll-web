@@ -1,6 +1,6 @@
 <template>
   <b-row align-h="center" id="poll-option-input">
-    <b-col cols=6>
+    <b-col cols="12" md="6">
       <input
         type="text"
         placeholder="Add an amazing option"

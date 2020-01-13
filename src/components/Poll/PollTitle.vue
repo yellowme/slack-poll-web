@@ -1,7 +1,7 @@
 <template>
   <div id="poll-title">
     <b-row align-h="center">
-      <b-col cols=6>
+      <b-col cols="12" md="6">
         <input
           id="title-input"
           type="text"
