@@ -3,15 +3,18 @@
     <b-container fluid="md">
       <poll-title v-model="title" @keyupEnter="focusOnNextInput" />
       <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
-      <b-row align-h="center">
+      <b-row align-h="center" id="slack-message-container">
         <b-col cols="6">
-          <ul id="options-list">
-            <li v-for="option in options" :key="option.id" class="option-lsit-item">
-              <!-- <input type="text" :value="option.value" class="option-input-element"> -->
-              <span class="option-element">{{ option.value }}</span>
-              <a class="option-remove-element" @click="removeOption(option)">❌</a>
-            </li>
-          </ul>
+          <poll-info />
+          <slack-section>
+            <ul id="options-list">
+              <li v-for="option in options" :key="option.id" class="option-lsit-item">
+                <!-- <input type="text" :value="option.value" class="option-input-element"> -->
+                <span class="option-element">{{ option.value }}</span>
+                <a class="option-remove-element" @click="removeOption(option)">❌</a>
+              </li>
+            </ul>
+          </slack-section>
         </b-col>
       </b-row>
       <poll-command-text-area v-model="command" />
@@ -35,15 +38,19 @@
 <script>
 import { transcript } from './utils/transcriptor'
 import PollTitle from './Poll/PollTitle'
+import PollInfo from './Poll/PollInfo'
 import PollOptionInput from './Poll/PollOptionInput'
 import PollCommandTextArea from './Poll/PollCommandTextArea'
+import SlackSection from  './Decoration/SlackSection'
 
 export default {
   name: 'Poll',
   components: {
     PollTitle,
+    PollInfo,
     PollOptionInput,
-    PollCommandTextArea
+    PollCommandTextArea,
+    SlackSection
   },
   methods: {
     addOption() {
@@ -112,6 +119,13 @@ export default {
 #options-list {
   text-align: left;
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#slack-message-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 /*This is for a input type*/

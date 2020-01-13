@@ -51,5 +51,6 @@ a {
   --main-font-primary-color: rgba(209, 210, 211, 1);
   --main-border-color: rgba(216, 216, 216, 0.5);
   --secondary-border-color: rgba(208, 208, 208, 0.5);
+  --yellowme-color: #FFD100;
 }
 </style>
