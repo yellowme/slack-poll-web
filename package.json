@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "start": "node server.js",
     "lint": "vue-cli-service lint",
     "cypress:open": "cypress open"
   },
@@ -12,6 +13,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
+    "express": "^4.17.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
