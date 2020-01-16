@@ -5,16 +5,17 @@
       <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
       <b-row align-h="center" id="slack-message-container">
         <b-col cols="6">
-          <poll-info :title="title" @typeChanged="typeChanged($event)"/>
-          <slack-section>
-            <ul id="options-list">
-              <li v-for="option in options" :key="option.id" class="option-lsit-item">
-                <!-- <input type="text" :value="option.value" class="option-input-element"> -->
-                <span class="option-element">{{ option.value }}</span>
-                <a class="option-remove-element" @click="removeOption(option)">❌</a>
-              </li>
-            </ul>
-          </slack-section>
+          <poll-info :title="title" @typeChanged="typeChanged($event)">
+            <slack-section>
+              <ul id="options-list">
+                <li v-for="option in options" :key="option.id" class="option-lsit-item">
+                  <!-- <input type="text" :value="option.value" class="option-input-element"> -->
+                  <span class="option-element">{{ option.value }}</span>
+                  <a class="option-remove-element" @click="removeOption(option)">❌</a>
+                </li>
+              </ul>
+            </slack-section>
+          </poll-info>
         </b-col>
       </b-row>
       <poll-command-text-area v-model="command" />

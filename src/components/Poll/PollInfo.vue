@@ -1,15 +1,22 @@
 <template>
   <div id="poll-info">
-    <slack-section>
-      <div id="info-group">
-        <h4 id="poll-title">{{ title }}</h4>
-        <div>By: You</div>
-        <div>
-          Mode:
-          <a id="poll-type" @click="togglePollType">{{ multiple ? 'Multiple' : 'Single' }}</a>
+    <div id="bot-avatar"></div>
+    <div id="bot-message">
+      <h4 id="bot-name">Yellow Poll</h4>
+      <slack-section>
+        <div id="info-group">
+          <h4 id="poll-title">{{ title }}</h4>
+          <div>By: You</div>
+          <div>
+            Mode:
+            <a id="poll-type" @click="togglePollType">{{ multiple ? 'Multiple' : 'Single' }}</a>
+          </div>
         </div>
+      </slack-section>
+      <div id="options-slot">
+        <slot></slot>
       </div>
-    </slack-section>
+    </div>
   </div>
 </template>
 
@@ -40,6 +47,10 @@ export default {
 <style>
 #poll-info {
   margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
 }
 
 #poll-title {
@@ -54,5 +65,26 @@ export default {
   font-family: LatoBold;
   font-weight: bold;
   text-decoration: underline;
+}
+
+#bot-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  background-color: var(--yellowme-color);
+  margin-right: 10px;
+}
+
+#bot-name {
+  font-family: LatoBold;
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 2px;
+  text-align: left;
+}
+
+#options-slot {
+  margin-top: 10px;
 }
 </style>
