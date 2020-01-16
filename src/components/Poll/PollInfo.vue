@@ -2,11 +2,11 @@
   <div id="poll-info">
     <slack-section>
       <div id="info-group">
-        <h4 id="poll-title">Awesome Poll</h4>
+        <h4 id="poll-title">{{ title }}</h4>
         <div>By: You</div>
         <div>
           Mode:
-          <a id="poll-type">Single</a>
+          <a id="poll-type" @click="togglePollType">{{ multiple ? 'Multiple' : 'Single' }}</a>
         </div>
       </div>
     </slack-section>
@@ -20,6 +20,19 @@ export default {
   name: 'PollInfo',
   components: {
     SlackSection
+  },
+  props: ['title'],
+  methods: {
+    togglePollType() {
+      this.multiple = !this.multiple
+      this.$emit('typeChanged', this.multiple)
+      this.$emit('updated')
+    }
+  },
+  data() {
+    return {
+      multiple: false
+    }
   }
 }
 </script>

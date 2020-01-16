@@ -1,11 +1,11 @@
 <template>
   <div class="Poll">
-    <b-container fluid="md">
+    <b-container>
       <poll-title v-model="title" @keyupEnter="focusOnNextInput" />
       <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
       <b-row align-h="center" id="slack-message-container">
         <b-col cols="6">
-          <poll-info />
+          <poll-info :title="title" @typeChanged="typeChanged($event)"/>
           <slack-section>
             <ul id="options-list">
               <li v-for="option in options" :key="option.id" class="option-lsit-item">
@@ -82,6 +82,19 @@ export default {
       } catch {
         alert('Oops!')
       }
+    },
+
+    typeChanged(event) {
+      this.multiple = event
+      this.updateCommand()
+    },
+
+    updateCommand() {
+      this.command = transcript({
+        title: this.title,
+        options: this.options.map(option => option.value),
+        multiple: this.multiple
+      })
     }
   },
   watch: {
@@ -100,11 +113,7 @@ export default {
     }
   },
   updated() {
-    this.command = transcript({
-      title: this.title,
-      options: this.options.map(option => option.value),
-      multiple: this.multiple
-    })
+    this.updateCommand()
   }
 }
 </script>
