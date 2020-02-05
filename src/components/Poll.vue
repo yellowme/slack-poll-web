@@ -53,6 +53,10 @@ export default {
     PollCommandTextArea,
     SlackSection
   },
+  mounted() {
+    this.title = localStorage.getItem('title');
+    this.options = localStorage.getItem('options') ? JSON.parse(localStorage.getItem('options')) : [];
+  },
   methods: {
     addOption() {
       let id = 1
@@ -101,6 +105,12 @@ export default {
   watch: {
     command() {
       this.successfulCopy = false
+    },
+    options(newOptions) {
+      localStorage.setItem('options', JSON.stringify(newOptions));
+    },
+    title(newTitle) {
+      localStorage.setItem('title', newTitle);
     }
   },
   data() {
