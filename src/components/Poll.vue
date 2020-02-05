@@ -9,8 +9,8 @@
             <slack-section>
               <ul id="options-list">
                 <li v-for="option in options" :key="option.id" class="option-lsit-item">
-                  <!-- <input type="text" :value="option.value" class="option-input-element"> -->
-                  <span class="option-element">{{ option.value }}</span>
+                  <input type="text" v-model="option.value" class="option-input-element">
+                  <!-- <span class="option-element">{{ option.value }}</span> -->
                   <a class="option-remove-element" @click="removeOption(option)">❌</a>
                 </li>
               </ul>
@@ -139,7 +139,7 @@ export default {
 }
 
 /*This is for a input type*/
-/* 
+
 .option-input-element {
   border: none;
 }
@@ -147,7 +147,7 @@ export default {
 .option-input-element:focus {
   outline: 0;
 }
-*/
+
 
 .option-element {
   margin-right: 12px;
