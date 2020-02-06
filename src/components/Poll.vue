@@ -75,7 +75,7 @@ export default {
     },
 
     editOption(newOption) {
-      this.options = this.options.map((option) => { return option.id === newOption.id ? newOption : option })
+      this.options = this.options.map(option => option.id === newOption.id ? newOption : option )
     },
 
     removeOption(option) {
