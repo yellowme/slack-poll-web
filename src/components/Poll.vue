@@ -8,10 +8,14 @@
           <poll-info :title="title" @typeChanged="typeChanged($event)">
             <slack-section>
               <ul id="options-list">
-                <li v-for="option in options" :key="option.id" class="option-lsit-item">
-                  <input type="text" v-model="option.value" class="option-input-element">
-                  <!-- <span class="option-element">{{ option.value }}</span> -->
-                  <a class="option-remove-element" @click="removeOption(option)">❌</a>
+                <li v-for="(option, key) in options" :key="key" class="option-lsit-item">
+                  <input
+                    type="text"
+                    class="option-input-element"
+                    @input="updateOptionPersisted($event, key)"
+                    :value="option.value"
+                  />
+                  <a class="option-remove-element" @click="removeOption(key)">❌</a>
                 </li>
               </ul>
             </slack-section>
@@ -24,28 +28,25 @@
           <a
             :class="successfulCopy ? 'text-success' : ''"
             @click="copyToClipboard"
-          >
-            {{ successfulCopy ? 'Copied!' : 'Copy' }}
-          </a>
+          >{{ successfulCopy ? 'Copied!' : 'Copy' }}</a>
         </b-col>
       </b-row>
-      <!-- <b-modal id="success-modal" title="Se copió el comando con éxito">
-        <p class="my-4">¡Ahora ve a pegarlo en slack!</p>
-      </b-modal> -->
     </b-container>
   </div>
 </template>
 
 <script>
-import { transcript } from './utils/transcriptor'
-import PollTitle from './Poll/PollTitle'
-import PollInfo from './Poll/PollInfo'
-import PollOptionInput from './Poll/PollOptionInput'
-import PollCommandTextArea from './Poll/PollCommandTextArea'
-import SlackSection from  './Decoration/SlackSection'
+import { transcript } from "./utils/transcriptor";
+
+import PollTitle from "./Poll/PollTitle";
+import PollInfo from "./Poll/PollInfo";
+import PollOptionInput from "./Poll/PollOptionInput";
+import PollCommandTextArea from "./Poll/PollCommandTextArea";
+
+import SlackSection from "./Decoration/SlackSection";
 
 export default {
-  name: 'Poll',
+  name: "Poll",
   components: {
     PollTitle,
     PollInfo,
@@ -53,80 +54,87 @@ export default {
     PollCommandTextArea,
     SlackSection
   },
+  data() {
+    return {
+      title: "",
+      newOptionText: "",
+      options: [],
+      multiple: false,
+      command: "",
+      successfulCopy: false
+    };
+  },
   mounted() {
-    this.title = localStorage.getItem('title');
-    this.options = localStorage.getItem('options') ? JSON.parse(localStorage.getItem('options')) : [];
+    this.title = localStorage.getItem("title")
+      ? localStorage.getItem("title")
+      : "";
+    this.options = localStorage.getItem("options")
+      ? JSON.parse(localStorage.getItem("options"))
+      : [];
+  },
+  updated() {
+    this.updateCommand();
   },
   methods: {
     addOption() {
-      let id = 1
-      if (this.options.length > 0) {
-        id = this.options[0].id++
-      }
+      if (!this.newOptionText) return;
+
       this.options.push({
-        id: id,
         value: this.newOptionText
-      })
-      this.newOptionText = ''
-    },
+      });
 
+      this.newOptionText = "";
+      this.updatedOptionsOffline(this.options);
+    },
+    removeOption(key) {
+      this.options.splice(key, 1);
+      this.updatedOptionsOffline(this.options);
+    },
+    updateOptionPersisted({ target: { value } }, id) {
+      this.options = this.options.map((option, index) =>
+        index === id ? { ...option, value } : option
+      );
+
+      this.updatedOptionsOffline(this.options);
+    },
     focusOnNextInput() {
-      document.getElementById('add-option-input').focus()
+      document.getElementById("add-option-input").focus();
     },
-
-    removeOption(option) {
-      this.options.splice(this.options.indexOf(option), 1)
-    },
-
     copyToClipboard() {
-      let command = document.querySelector('#command-input')
-      command.select()
+      let command = document.querySelector("#command-input");
+      command.select();
+
       try {
-        document.execCommand('copy')
-        this.successfulCopy = true
+        document.execCommand("copy");
+        this.successfulCopy = true;
       } catch {
-        alert('Oops!')
+        alert("Oops!");
       }
     },
-
     typeChanged(event) {
-      this.multiple = event
-      this.updateCommand()
+      this.multiple = event;
+      this.updateCommand();
     },
-
     updateCommand() {
       this.command = transcript({
         title: this.title,
         options: this.options.map(option => option.value),
         multiple: this.multiple
-      })
+      });
+    },
+    updatedOptionsOffline(options) {
+      localStorage.setItem("options", JSON.stringify(options));
     }
   },
   watch: {
     command() {
-      this.successfulCopy = false
-    },
-    options(newOptions) {
-      localStorage.setItem('options', JSON.stringify(newOptions));
+      this.successfulCopy = false;
     },
     title(newTitle) {
-      localStorage.setItem('title', newTitle);
+      localStorage.setItem("title", newTitle);
     }
-  },
-  data() {
-    return {
-      title: '',
-      newOptionText: '',
-      options: [],
-      multiple: false,
-      command: '',
-      successfulCopy: false
-    }
-  },
-  updated() {
-    this.updateCommand()
   }
-}
+};
 </script>
 
 <style scoped>
@@ -157,7 +165,6 @@ export default {
 .option-input-element:focus {
   outline: 0;
 }
-
 
 .option-element {
   margin-right: 12px;

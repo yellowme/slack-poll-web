@@ -8,16 +8,16 @@
         @input="$emit('input', $event.target.value)"
         @keyup.enter="$emit('keyupEnter')"
         id="add-option-input"
-      >
+      />
     </b-col>
   </b-row>
 </template>
 
 <script>
 export default {
-  name: 'PollOptioninput',
-  props: ['value']
-}
+  name: "PollOptioninput",
+  props: ["value"]
+};
 </script>
 
 <style>
