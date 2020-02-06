@@ -7,10 +7,10 @@
           type="text"
           placeholder="Here goes your poll title"
           autocomplete="off"
+          v-bind="$attrs"
           :value="value"
-          @input="$emit('input', $event.target.value)"
-          @keyup.enter="$emit('keyupEnter')"
-        >
+          v-on="customListeners"
+        />
       </b-col>
     </b-row>
   </div>
@@ -20,6 +20,15 @@
 export default {
   name: 'PollTitle',
   props: ['value'],
+  inheritAttrs: false,
+  computed: {
+    customListeners() {
+      return {
+        ...this.$listeners,
+        input: event => this.$emit('input', event.target.value)
+      }
+    }
+  },
   mounted() {
     document.getElementById('title-input').focus()
   }

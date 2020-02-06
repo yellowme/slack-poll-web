@@ -1,23 +1,26 @@
 <template>
   <div class="Poll">
     <b-container>
-      <poll-title v-model="title" @keyupEnter="focusOnNextInput" />
-      <poll-option-input v-model="newOptionText" @keyupEnter="addOption" />
+      <poll-title v-model="title" @keyup.enter="focusOnNextInput" />
+      <poll-option-input
+        v-model="newOptionText"
+        @keyup.enter="addOption"
+        type="text"
+        placeholder="Add an amazing option"
+      />
       <b-row align-h="center" id="slack-message-container">
         <b-col cols="6">
-          <poll-info :title="title" @typeChanged="typeChanged($event)">
+          <poll-info :title="title" :multiple.sync="multiple">
             <slack-section>
-              <ul id="options-list">
-                <li v-for="(option, key) in options" :key="key" class="option-lsit-item">
-                  <input
-                    type="text"
-                    class="option-input-element"
-                    @input="updateOptionPersisted($event, key)"
-                    :value="option.value"
-                  />
-                  <a class="option-remove-element" @click="removeOption(key)">❌</a>
-                </li>
-              </ul>
+              <slack-list>
+                <slack-list-item
+                  v-for="(option, key) in options"
+                  :key="key"
+                  :value="option.value"
+                  @input="updateOptionPersisted($event, key)"
+                  @remove="removeOption(key)"
+                ></slack-list-item>
+              </slack-list>
             </slack-section>
           </poll-info>
         </b-col>
@@ -36,105 +39,113 @@
 </template>
 
 <script>
-import { transcript } from "./utils/transcriptor";
+import { transcript } from './utils/transcriptor'
 
-import PollTitle from "./Poll/PollTitle";
-import PollInfo from "./Poll/PollInfo";
-import PollOptionInput from "./Poll/PollOptionInput";
-import PollCommandTextArea from "./Poll/PollCommandTextArea";
+import PollTitle from './Poll/PollTitle'
+import PollInfo from './Poll/PollInfo'
+import PollOptionInput from './Poll/PollOptionInput'
+import PollCommandTextArea from './Poll/PollCommandTextArea'
 
-import SlackSection from "./Decoration/SlackSection";
+import SlackList from './Decoration/SlackList'
+import SlackSection from './Decoration/SlackSection'
+import SlackListItem from './Decoration/SlackListItem'
 
 export default {
-  name: "Poll",
+  name: 'Poll',
   components: {
     PollTitle,
     PollInfo,
     PollOptionInput,
     PollCommandTextArea,
-    SlackSection
+    SlackSection,
+    SlackList,
+    SlackListItem
   },
   data() {
     return {
-      title: "",
-      newOptionText: "",
+      title: '',
+      newOptionText: '',
       options: [],
       multiple: false,
-      command: "",
+      command: '',
       successfulCopy: false
-    };
+    }
   },
   mounted() {
-    this.title = localStorage.getItem("title")
-      ? localStorage.getItem("title")
-      : "";
-    this.options = localStorage.getItem("options")
-      ? JSON.parse(localStorage.getItem("options"))
-      : [];
+    const storedTitle = localStorage.getItem('title')
+    const storedOptions = localStorage.getItem('options')
+    const storedMultiple = localStorage.getItem('multiple')
+
+    this.title = storedTitle ? storedTitle : ''
+    this.options = storedOptions ? JSON.parse(storedOptions) : []
+    this.multiple = storedMultiple === 'true' ? true : false
   },
   updated() {
-    this.updateCommand();
+    this.updateCommand()
   },
   methods: {
     addOption() {
-      if (!this.newOptionText) return;
+      if (!this.newOptionText) return
 
       this.options.push({
         value: this.newOptionText
-      });
+      })
 
-      this.newOptionText = "";
-      this.updatedOptionsOffline(this.options);
+      this.newOptionText = ''
+      this.updatedOptionsOffline(this.options)
     },
     removeOption(key) {
-      this.options.splice(key, 1);
-      this.updatedOptionsOffline(this.options);
+      this.options.splice(key, 1)
+      this.updatedOptionsOffline(this.options)
     },
-    updateOptionPersisted({ target: { value } }, id) {
+    updateOptionPersisted(value, id) {
       this.options = this.options.map((option, index) =>
         index === id ? { ...option, value } : option
-      );
+      )
 
-      this.updatedOptionsOffline(this.options);
+      this.updatedOptionsOffline(this.options)
     },
     focusOnNextInput() {
-      document.getElementById("add-option-input").focus();
+      document.getElementById('add-option-input').focus()
     },
     copyToClipboard() {
-      let command = document.querySelector("#command-input");
-      command.select();
+      let command = document.querySelector('#command-input')
+      command.select()
 
       try {
-        document.execCommand("copy");
-        this.successfulCopy = true;
+        document.execCommand('copy')
+        this.successfulCopy = true
       } catch {
-        alert("Oops!");
+        alert('Oops!')
       }
     },
     typeChanged(event) {
-      this.multiple = event;
-      this.updateCommand();
+      this.multiple = event
+      this.updateCommand()
     },
     updateCommand() {
       this.command = transcript({
         title: this.title,
         options: this.options.map(option => option.value),
         multiple: this.multiple
-      });
+      })
     },
     updatedOptionsOffline(options) {
-      localStorage.setItem("options", JSON.stringify(options));
+      localStorage.setItem('options', JSON.stringify(options))
     }
   },
   watch: {
     command() {
-      this.successfulCopy = false;
+      this.successfulCopy = false
     },
     title(newTitle) {
-      localStorage.setItem("title", newTitle);
+      localStorage.setItem('title', newTitle)
+    },
+    multiple(newValue) {
+      localStorage.setItem('multiple', newValue)
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -154,23 +165,5 @@ export default {
 #slack-message-container {
   margin-top: 40px;
   margin-bottom: 40px;
-}
-
-/*This is for a input type*/
-
-.option-input-element {
-  border: none;
-}
-
-.option-input-element:focus {
-  outline: 0;
-}
-
-.option-element {
-  margin-right: 12px;
-}
-
-.option-remove-element {
-  cursor: pointer;
 }
 </style>

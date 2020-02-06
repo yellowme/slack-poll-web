@@ -3,12 +3,7 @@
     <b-row align-h="center">
       <b-col cols="12" md="6">
         <span id="instructions">Copy-pasta your command into slack :^)</span>
-        <textarea
-          :value="value"
-          @input="$emit('input', $event.target.value)"
-          id="command-input"
-        >
-        </textarea>
+        <textarea :value="value" @input="$emit('input', $event.target.value)" id="command-input"></textarea>
       </b-col>
     </b-row>
   </div>

@@ -28,17 +28,16 @@ export default {
   components: {
     SlackSection
   },
-  props: ['title'],
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    multiple: Boolean
+  },
   methods: {
     togglePollType() {
-      this.multiple = !this.multiple
-      this.$emit('typeChanged', this.multiple)
-      this.$emit('updated')
-    }
-  },
-  data() {
-    return {
-      multiple: false
+      this.$emit('update:multiple', !this.multiple)
     }
   }
 }
@@ -50,7 +49,7 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
 }
 
 #poll-title {

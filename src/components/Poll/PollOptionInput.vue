@@ -1,23 +1,25 @@
 <template>
   <b-row align-h="center" id="poll-option-input">
     <b-col cols="12" md="6">
-      <input
-        type="text"
-        placeholder="Add an amazing option"
-        :value="value"
-        @input="$emit('input', $event.target.value)"
-        @keyup.enter="$emit('keyupEnter')"
-        id="add-option-input"
-      />
+      <input id="add-option-input" v-bind="$attrs" :value="value" v-on="customListeners" />
     </b-col>
   </b-row>
 </template>
 
 <script>
 export default {
-  name: "PollOptioninput",
-  props: ["value"]
-};
+  name: 'PollOptioninput',
+  props: ['value'],
+  inheritAttrs: false,
+  computed: {
+    customListeners() {
+      return {
+        ...this.$listeners,
+        input: event => this.$emit('input', event.target.value)
+      }
+    }
+  }
+}
 </script>
 
 <style>
