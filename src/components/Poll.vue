@@ -119,10 +119,6 @@ export default {
         alert('Oops!')
       }
     },
-    typeChanged(event) {
-      this.multiple = event
-      this.updateCommand()
-    },
     updateCommand() {
       this.command = transcript({
         title: this.title,
@@ -142,6 +138,7 @@ export default {
       localStorage.setItem('title', newTitle)
     },
     multiple(newValue) {
+      this.updateCommand()
       localStorage.setItem('multiple', newValue)
     }
   }
