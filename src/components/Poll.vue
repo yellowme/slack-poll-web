@@ -9,7 +9,7 @@
             <slack-section>
               <ul id="options-list">
                 <li v-for="option in options" :key="option.id" class="option-lsit-item">
-                  <input type="text" v-model="option.value" class="option-input-element">
+                  <input type="text" v-model="option.value" class="option-input-element" @input="editOption(option)">
                   <!-- <span class="option-element">{{ option.value }}</span> -->
                   <a class="option-remove-element" @click="removeOption(option)">❌</a>
                 </li>
@@ -72,6 +72,10 @@ export default {
 
     focusOnNextInput() {
       document.getElementById('add-option-input').focus()
+    },
+
+    editOption(newOption) {
+      this.options = this.options.map(option => option.id === newOption.id ? newOption : option )
     },
 
     removeOption(option) {
